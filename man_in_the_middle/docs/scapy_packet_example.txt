@@ -1,0 +1,72 @@
+###[ Ethernet ]###
+dst       = 52:54:00:12:35:00
+src       = 08:00:27:35:21:2e
+type      = IPv4
+###[ IP ]###
+version   = 4
+ihl       = 5
+tos       = 0x0
+len       = 441
+id        = 22651
+flags     = DF
+frag      = 0
+ttl       = 64
+proto     = tcp
+chksum    = 0xf1f9
+src       = 10.0.2.9
+dst       = 176.28.50.165
+\options   \
+###[ TCP ]###
+sport     = 48556
+dport     = http
+seq       = 790303956
+ack       = 327206
+dataofs   = 5
+reserved  = 0
+flags     = PA
+window    = 64240
+chksum    = 0xf075
+urgptr    = 0
+options   = []
+###[ HTTP 1 ]###
+###[ HTTP Request ]###
+Method    = 'GET'
+Path      = '/login.php'
+Http_Version= 'HTTP/1.1'
+A_IM      = None
+Accept    = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+Accept_Charset= None
+Accept_Datetime= None
+Accept_Encoding= 'gzip, deflate'
+Accept_Language= 'en-US,en;q=0.5'
+Access_Control_Request_Headers= None
+Access_Control_Request_Method= None
+Authorization= None
+Cache_Control= 'max-age=0'
+Connection= 'keep-alive'
+Content_Length= None
+Content_MD5= None
+Content_Type= None
+Cookie    = None
+DNT       = None
+Date      = None
+Expect    = None
+Forwarded = None
+From      = Non
+Front_End_Https= None
+HTTP2_Settings= None
+Host      = 'testphp.vulnweb.com'
+If_Match  = None
+If_Modified_Since= None
+If_None_Match= None
+If_Range  = None
+If_Unmodified_Since= None
+Keep_Alive= None
+Max_Forwards= None
+Origin    = None
+Permanent = None
+Pragma    = None
+Proxy_Authorization= None
+Proxy_Connection= None
+Range     = None
+Referer   = 'http://testphp.vulnweb.com/login.php
