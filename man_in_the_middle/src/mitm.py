@@ -1,16 +1,23 @@
 from time import sleep
 import sys
 import os
+import requests
+from bs4 import BeautifulSoup
+from twilio.rest import Client
+from twilio.twiml.messaging_response import MessagingResponse
+import redis
 import platform
 from scapy.all import *
 from scapy.layers.l2 import Ether
 from scapy.layers import http
 import argparse
 
+
 # TODO
-[OSX, MAC_ADDRESS_CLEAN_PATTERN, ARP, SIGNATURE] = ['load_from_env']
+[OSX, MAC_ADDRESS_CLEAN_PATTERN, ARP, SIGNATURE, TWILIO_SID, PHONE_NUMBER, TWILIO_TOKEN, INTERCEPT_URL] = ['load_from_env']
 
-
+client = Client(TWILIO_SID, TWILIO_TOKEN)
+redis_client = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT, db=0)
 
 def port_forwarding(flag=1):
     """
@@ -118,6 +125,31 @@ def mitm(ip, r, interface):
         except KeyboardInterrupt:
             done(ip, r, interface)
             break
+
+def send_msg(rec, body):
+    message = client.messages.create(to=rec, from_=PHONE_NUMBER, body=body)
+
+def read_intercept(url=INTERCEPT_URL):
+    """
+        Scramble and read from webpage
+    """
+    r = requests.get(url)
+    soup = BeautifulSoup(r.text, 'html.parser')
+    # todo parse html
+    for row in soup.find_all('tr'):
+        cols = [ele.text for ele in row.find_all('td')]
+        if cols:
+            queue = redis_client.smembers(cols)
+            for q in queue:
+                message(q.decode('utf-8'), body=f"Webpage contains")
+                redis_client.srem(cols, q)
+
+def read_sms():
+    if request.forms['AccountSID'] is not TWILIO_SID:
+        raise Exception("Invalid Twilio SID")
+    user = request.form['Form']
+    ele_array = requst.form['Body'].strip().upper()
+    redis_client.sadd(ele_array, user.encode('utf-8'))
 
 
 def log(msg):
